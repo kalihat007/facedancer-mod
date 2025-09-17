@@ -351,6 +351,11 @@ class USBDevice(USBDescribable):
             ])
         else:
             # string descriptors start at 1
+            if not (1 <= num <= len(self.strings)):
+                if self.verbose > 1:
+                    print(self.name, f"received unknown string descriptor index {num}")
+                return None
+
             s = self.strings[num-1].encode('utf-16')
 
             # Linux doesn't like the leading 2-byte Byte Order Mark (BOM);
